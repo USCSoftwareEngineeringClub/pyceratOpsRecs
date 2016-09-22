@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Run updates
-sudo export DEBIAN_FRONTEND=noninteractive;
 DEBIAN_FRONTEND=noninteractive; 
 sudo apt-get -o Dpkg::Options::="--force-confnew" -q -y update;
 sudo apt-get -o Dpkg::Options::="--force-confnew" -q -y upgrade;
@@ -12,8 +11,8 @@ which conda || {
 	CONDA=Miniconda2-latest-Linux-x86_64.sh
 	curl -sLO https://repo.continuum.io/miniconda/$CONDA;
 	chmod +x ./$CONDA;
-	./$CONDA -b -p /miniconda2;
+	./$CONDA -b -p ./miniconda2;
 	rm ./$CONDA;
-	echo export PATH=$PATH:/miniconda2/bin >> /home/vagrant/.bashrc;
+	echo export PATH=$PATH:./miniconda2/bin >> /home/vagrant/.bashrc;
 	echo source activate pyceratOpsRecs >> /home/vagrant/.bashrc;
 }
