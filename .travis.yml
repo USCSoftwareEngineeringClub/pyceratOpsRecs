@@ -5,8 +5,8 @@ python:
 install:
 - sudo apt-get update
 - sudo apt-get install python-dev
-- scripts/setup
-- scripts/install
+- scripts/setup.sh
+- scripts/install.sh
 
 script:
 - true
