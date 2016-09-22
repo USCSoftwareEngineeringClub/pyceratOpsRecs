@@ -9,7 +9,7 @@ install:
 - scripts/install.sh
 
 script:
-- true
+- nosetest
 
 branches:
   only:

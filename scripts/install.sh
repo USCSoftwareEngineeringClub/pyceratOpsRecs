@@ -4,11 +4,11 @@
 PATH=$PATH:./miniconda2/bin;
 
 # Create new env
-conda create -n pyceratOpsRecs python=2.7;
+conda create -y -n pyceratOpsRecs python=2.7;
 source activate pyceratOpsRecs;
 
 # run conda updates
 conda update -y conda;
 
 # Install deps.
-conda install -q -y -c conda-forge tensorflow;
+conda install -q -y -c conda-forge tensorflow nose;

@@ -2,9 +2,10 @@
 
 # Run updates
 DEBIAN_FRONTEND=noninteractive; 
-sudo apt-get -o Dpkg::Options::="--force-confnew" -q -y update;
-sudo apt-get -o Dpkg::Options::="--force-confnew" -q -y upgrade;
-sudo apt-get install  -o Dpkg::Options::="--force-confnew" -q -y curl python python-dev;
+apt-get -y remove grub-pc
+sudo apt-get -o Dpkg::Options::="--force-confnew" -y update;
+sudo apt-get -o Dpkg::Options::="--force-confnew" -y upgrade;
+sudo apt-get install  -o Dpkg::Options::="--force-confnew" -y curl python python-dev;
 
 # Install conda
 which conda || {
