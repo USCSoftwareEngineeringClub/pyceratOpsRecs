@@ -3,9 +3,9 @@
 # Run updates
 sudo export DEBIAN_FRONTEND=noninteractive;
 DEBIAN_FRONTEND=noninteractive; 
-sudo apt-get -q -y update;
-sudo apt-get -q -y upgrade;
-sudo apt-get install -q -y curl python python-dev;
+sudo apt-get -o Dpkg::Options::="--force-confnew" -q -y update;
+sudo apt-get -o Dpkg::Options::="--force-confnew" -q -y upgrade;
+sudo apt-get install  -o Dpkg::Options::="--force-confnew" -q -y curl python python-dev;
 
 # Install conda
 which conda || {
