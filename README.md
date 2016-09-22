@@ -10,7 +10,7 @@ This is a basic OCR arithmetic calculator implemented in Python with Tensorflow.
 
 We (:crocodile:) believe developers should spend most of their time developing, and not setting up their enviroment. For this reason, we strongly encourage you to use the `vagrantized` of this project.
 
-1. Install Vagrant
+1. Install Vagrant: https://www.vagrantup.com/downloads.html
 1. cd /location/of/pyceratOpsRecs-master
 1. run `vagrant up`
 1. run `vagrant ssh`
