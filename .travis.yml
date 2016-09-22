@@ -1,0 +1,16 @@
+language: python
+python:
+- '2.7'
+
+install:
+- sudo apt-get update
+- sudo apt-get install python-dev
+- scripts/setup
+- scripts/install
+
+script:
+- true
+
+branches:
+  only:
+    - master
