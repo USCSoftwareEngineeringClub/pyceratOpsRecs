@@ -8,6 +8,9 @@ install:
 - scripts/setup.sh
 - scripts/install.sh
 
+before_script:
+- export PATH=$PATH:./miniconda2/bin;
+  
 script:
 - nosetest
 
