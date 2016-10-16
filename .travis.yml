@@ -10,6 +10,7 @@ install:
 
 before_script:
 - export PATH=$PATH:./miniconda2/bin;
+- source activate pyceratOpsRecs;
   
 script:
 - nosetest

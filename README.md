@@ -1,5 +1,5 @@
 # pyceratOpsRecs :crocodile:
-[![Code Health](https://landscape.io/github/USCSoftwareEngineeringClub/dylan-PyceratOpsRecs/master/landscape.svg?style=flat)](https://landscape.io/github/USCSoftwareEngineeringClub/dylan-PyceratOpsRecs/master)
+[![Code Health](https://landscape.io/github/USCSoftwareEngineeringClub/pyceratOpsRecs/master/landscape.svg?style=flat)](https://landscape.io/github/USCSoftwareEngineeringClub/pyceratOpsRecs/master)
 [![Build Status](https://travis-ci.org/USCSoftwareEngineeringClub/pyceratOpsRecs.svg?branch=master)](https://travis-ci.org/USCSoftwareEngineeringClub/pyceratOpsRecs)
 
 ## What this is
