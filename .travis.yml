@@ -9,13 +9,12 @@ install:
 - scripts/install.sh
 
 before_script:
-- ls -la ~/;
-- export PATH=$PATH:~/miniconda2/bin;
-- source activate pyceratOpsRecs;
-- conda install -q -y -c conda-forge tensorflow nose;
+- ls -la ~/.conda/envs;
+- ls -la ~/.conda/envs/pyceratOpsRecs/bin;
   
 script:
-- nosetest
+- source activate pyceratOpsRecs;
+- which nosetests && nosetests || ~/.conda/envs/pyceratOpsRecs/bin/nosetests
 
 branches:
   only:
