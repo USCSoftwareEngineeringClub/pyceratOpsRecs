@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set path for local install
-PATH=$PATH:./miniconda2/bin;
+PATH=$PATH:~/miniconda2/bin;
 
 # Create new env
 conda create -y -n pyceratOpsRecs python=2.7;
