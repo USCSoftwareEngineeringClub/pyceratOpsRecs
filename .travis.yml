@@ -9,12 +9,11 @@ install:
 - scripts/install.sh
 
 before_script:
-- ls -la ~/.conda/envs;
-- ls -la ~/.conda/envs/pyceratOpsRecs/bin;
-  
+- export PATH=$PATH:./miniconda2/bin;
+
 script:
 - source activate pyceratOpsRecs;
-- which nosetests && nosetests || ~/.conda/envs/pyceratOpsRecs/bin/nosetests
+- nosetests
 
 branches:
   only:
