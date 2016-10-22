@@ -17,6 +17,13 @@ We (:crocodile:) believe developers should spend most of their time developing, 
 1. ???
 1. profit
 
+### Getting an error for the TensorFlow Import?
+1. run `vagrant up`
+1. run `vagrant ssh`
+1. run `sudo apt-get install python-pip python-dev`
+1. run `export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0rc1-cp27-none-linux_x86_64.whl`
+1. run `sudo pip install --upgrade $TF_BINARY_URL`
+
 ## How to use it
 
 ### How to run the current (10/20/16) version of the multi_cnn.py script
