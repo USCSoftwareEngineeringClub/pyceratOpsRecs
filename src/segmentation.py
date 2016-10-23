@@ -11,6 +11,7 @@ def segment(im):
     """
     :param im:
         Image to detect digits and operations in
+
     """
 
     gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY) #grayscale
