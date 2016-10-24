@@ -5,6 +5,8 @@ import cv2
 routine for image segmentation and 
 detection of numbers and arithemic operations
 
+opencv 3.0+
+
 """
 
 def segment(im):
@@ -40,7 +42,7 @@ def segment(im):
 
                 if key == 27:  # (escape to quit)
                     sys.exit()
-                elif key in keys:
+                elif key in keys: #press any key to continue
                     responses.append(int(chr(key)))
                     sample = roismall.reshape((1,100))
                     samples = np.append(samples,sample,0)
