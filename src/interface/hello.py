@@ -18,6 +18,7 @@ def callAPI():
 
 	headersIn = {
 	    'Content-Type': 'application/json',
+	    'Host': 'api.projectoxford.ai',
 	    'Ocp-Apim-Subscription-Key': _key,
 	}
 
@@ -27,18 +28,20 @@ def callAPI():
 	})
 
 	try:
-		r = requests.post(_url, data={"url":"https://csgsarchitects.files.wordpress.com/2011/12/111_new-blog.jpg"},\
-	    			 params=paramsIn, headers=headersIn)
-		print r.content
-		print r.json()
-		return r.text
+		conn = httplib.HTTPSConnection('api.projectoxford.ai')
+		conn.request("POST", "/vision/v1.0/ocr?%s" % paramsIn, "{body}", headersIn)
+		response = conn.getresponse()
+		data = response.read()
+		print(data)
+		conn.close()
+		#
+		# r = requests.post(_url, data={"url":"https://csgsarchitects.files.wordpress.com/2011/12/111_new-blog.jpg"},\
+	 #    			 params=paramsIn, headers=headersIn)
+		# print r.content
+		# print r.json()
+		# return r.text
 	    #
-		# conn = httplib.HTTPSConnection('api.projectoxford.ai')
-		# conn.request("POST", "/vision/v1.0/ocr?%s" % paramsIn, "{body}", headersIn)
-		# response = conn.getresponse()
-		# data = response.read()
-		# print(data)
-		# conn.close()
+		
 		#
 	    # print 'hello'
 	    # conn.request("POST", "/vision/v1.0/ocr?%s" % params, {"url":"http://example.com/images/test.jpg"}, headers)
