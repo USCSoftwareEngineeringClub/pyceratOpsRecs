@@ -2,6 +2,8 @@ import sys
 import numpy as np
 import cv2
 """
+Authors: Lawton Mizell, Tyler Hall
+
 routine for image segmentation and 
 detection of numbers and arithemic operations
 
@@ -25,7 +27,6 @@ def segment(im):
     image,contours, hierarchy = cv2.findContours(thresh,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
     samples =  np.empty((0,100))
-    responses = []
     keys = [i for i in range(48,58)]
 
     for cnt in contours:
@@ -43,20 +44,13 @@ def segment(im):
                 if key == 27:  # (escape to quit)
                     sys.exit()
                 else: #press any key to continue
-                    responses.append(int(key))
                     sample = roismall.reshape((1,100))
                     samples = np.append(samples,sample,0)
 
-    responses = np.array(responses,np.float32)
-    responses = responses.reshape((responses.size,1))
     print "segmentation complete"
-
-    #samples = np.float32(samples)
-    #responses = np.float32(responses)
 
     cv2.imwrite('data/seg_result.png',im)
     np.savetxt('data/generalsamples.data',samples)
-    np.savetxt('data/generalresponses.data',responses)
 
 def main():
      im = cv2.imread('data/img.png')
