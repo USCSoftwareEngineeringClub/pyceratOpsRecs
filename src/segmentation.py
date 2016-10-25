@@ -24,12 +24,12 @@ def segment(im):
     #################     Now finding Contours     ###################
     image,contours, hierarchy = cv2.findContours(thresh,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
-    samples =  np.empty((0,100), np.float32)
+    samples =  np.empty((0,100))
     responses = []
     keys = [i for i in range(48,58)]
 
     for cnt in contours:
-        if cv2.contourArea(cnt) > 50:
+        if cv2.contourArea(cnt) > 20:
             [x,y,w,h] = cv2.boundingRect(cnt)
 
             #Draw bounding box for it, then resize to 10x10, and store its pixel values in an array
@@ -42,8 +42,8 @@ def segment(im):
 
                 if key == 27:  # (escape to quit)
                     sys.exit()
-                elif key in keys: #press any key to continue
-                    responses.append(int(chr(key)))
+                else: #press any key to continue
+                    responses.append(int(key))
                     sample = roismall.reshape((1,100))
                     samples = np.append(samples,sample,0)
 
@@ -51,8 +51,8 @@ def segment(im):
     responses = responses.reshape((responses.size,1))
     print "segmentation complete"
 
-    samples = np.float32(samples)
-    responses = np.float32(responses)
+    #samples = np.float32(samples)
+    #responses = np.float32(responses)
 
     cv2.imwrite('data/seg_result.png',im)
     np.savetxt('data/generalsamples.data',samples)
