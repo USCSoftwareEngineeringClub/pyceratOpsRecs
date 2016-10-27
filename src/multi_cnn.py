@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-
-# This code has been modifed by Tyler Hall (very minimally but it has been modifed)
+""" MultiORC """
+# This code has been modifed by Tyler Hall
 
 #Imports
 from __future__ import absolute_import
@@ -112,8 +112,3 @@ for i in range(1000):
 for i in xrange(10):
     testSet = mnist.test.next_batch(50)
     print("test accuracy %g"%accuracy.eval(feed_dict={ x: testSet[0], y_: testSet[1], keep_prob: 1.0}))
-
-
-
-
-
