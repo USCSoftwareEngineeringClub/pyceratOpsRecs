@@ -42,10 +42,11 @@
         <input type="file" id="exampleInputFile">
         <p class="help-block">Upload the file. Pyceratops is hungry!</p>
       </div>
-      <button type="submit" class="btn btn-default" id=callAPI >Submit</button>
+      <button type="button" class="btn btn-success" id=callAPI >Submit</button>
     </form>
 
-    <span id=result>?</span>
+    <span></span>
+    <pre style="white-space: pre; display: block;" id=result>Output</pre>
 
     <!--jQuery (necessary for Bootstrap's JavaScript plugins)-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -67,7 +68,9 @@
           $.getJSON( '/search', {
             uri: $('input[name="urlInput"]').val(),
           }, function(data) {
-            $("#result").text(data.result);
+            console.log(data)
+            var ouput = JSON.stringify(data, null, '\t')
+            $("#result").text(JSON.stringify(data, null, 4));
           });
           return false;
         });
