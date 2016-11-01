@@ -1,0 +1,5 @@
+Flask==0.11.1
+numpy==1.11.2
+requests==2.7.0
+cv2==1.0
+tensorflow==0.11.0rc2
