@@ -35,3 +35,10 @@ We (:crocodile:) believe developers should spend most of their time developing, 
 1. wait...
 
 ## How to contribute
+
+### orcModel Branch
+- [x] Fix train method in the Multi_Orc.py
+- [ ] Fix the stub parameters in ORCModel.py
+- [ ] Fix mnist.py to take in our own training images (might have to have multiple options)
+- [ ] Write the run method in the Multi_Orc.py
+- [ ] Add requirements to conda -- you can do this in scripts/install.sh
