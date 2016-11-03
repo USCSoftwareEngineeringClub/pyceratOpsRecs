@@ -3,11 +3,10 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+from mnist import read_data_sets
 import tensorflow.models.image.mnist.convolutional as conv
 import tensorflow as tf
 
-VALIDATION_SIZE = 5000  # Size of the validation set.
-BATCH_SIZE = 64
 
 #PlaceHolders
 
@@ -87,69 +86,59 @@ def train_model():
 
     y_conv=tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
 
-    return x, y_conv
+    return x, y_conv, keep_prob
 
 # Will need use Model after
-def train(tests, ans):
+def train():
     """
+    Currently takes the training data from tensorflow which
+    is stored in the folder MNIST_data
 
-    Extract images/ labels form provided gz archives
+    ***********
+    NEED TO CHANGE MNIST.PY FILE TO INPUT OWN TRAINING IMAGES/LABELS
+    PLEASE REMOVE THIS COMMENT ONCE THIS IS TAKEN CARE OF
+    ***********
 
-    :param tests
-        Name of the .gz file containing the JPEGs of the training images
 
-    :param ans
-        Name of the .gz file containing the JPEGs of the training lables
-
-    Currently 11/1/16 Trying to figure out how to train in the session.
-        https://github.com/tensorflow/tensorflow/blob/master/tensorflow/models/image/mnist/convolutional.py
-    might be helpful in figuring this out
-
+    Trains based off of data
+    Saves checkpoint in ./train_chpt/model.ckpt
     """
-    x, y_conv = train_model()
-    num_epochs = 10
-    train_size = train_labels.shape[0]
+    # Variables
+    x, y_conv, keep_prob = train_model()
+    mnist = read_data_sets('MNIST_data', one_hot=True)
 
-    # Extracts the data into numpy arrays
-    train_data = extract_data(tests, tests_size)
-    train_labels = extract_labels(ans, ans_size)
-
-    # Generate a validatoin set
-    validation_data = train_data[:VALIDATION_SIZE, ...]
-    validation_labels = train_labels[:VALIDATION_SIZE]
-    train_data = train_data[VALIDATION_SIZE:, ...]
-    train_labels = train_labels[VALIDATION_SIZE:]
-
-    #Training first steps
+    #Training prep
     cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y_conv), reduction_indices=[1]))
     train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
     correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-    # Create a local session to run the Training
+    # Add ops to save and restore all the Variables
+    saver = tf.train.Saver()
+    # Runs Session
+    sess = tf.InteractiveSession()
+    init = tf.initialize_all_variables()
     config = tf.ConfigProto()
     config.gpu_options.allocator_type = 'BFC'
-    with tf.Session(config = config) as sess:
+    with tf.Session(config = config) as s:
+        sess.run(init)
 
-        # Run all the initializers to prepare the trainable parameters
-        tf.initialize_all_variables().run()
-
-        #Loop through training steps
-        for step in xrange(int(num_epochs * train_size) // BATCH_SIZE):
-            offset = (step * BATCH_SIZE) % (train_size - BATCH_SIZE)
-            batch_data = train_data[offset:(offset + BATCH_SIZE), ...]
-            batch_labels = train_labels[offset:(offset + BATCH_SIZE)]
-
-            feed_dict = {train_data_node: batch_data, train_labels_node: batch_labels}
-
-            sess.run(optimizer, feed_dict=feed_dict)
-
+    # Runs Training Session
+    for i in range(1000):
+        batch = mnist.train.next_batch(50)
+        if i%100 == 0:
+            train_accuracy = accuracy.eval(feed_dict={x:batch[0], y_: batch[1], keep_prob: 1.0})
+            print("step %d, training accuracy %g"%(i, train_accuracy))
+        train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+    # Saves the variables to disk
+    save_path = saver.save(sess, "train_ckpt/model.ckpt")
+    print("Model saved in file: %s" % save_path)
 
 def run(self, tests):
     pass
 
 def main():
-    train("../data/train-images-idx3-ubyte.gz", "train-labels-idx1-ubyte.gz")
+    train()
 
 if __name__ == '__main__':
     main()
