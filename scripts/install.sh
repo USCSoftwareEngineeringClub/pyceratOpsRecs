@@ -11,4 +11,4 @@ source activate pyceratOpsRecs;
 conda update -y conda;
 
 # Install deps.
-conda install -q -y -c conda-forge tensorflow nose;
+conda install -q -y -c conda-forge tensorflow nose flask numpy requests opencv;
