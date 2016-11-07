@@ -6,7 +6,9 @@ from __future__ import print_function
 from mnist import read_data_sets
 import tensorflow.models.image.mnist.convolutional as conv
 import tensorflow as tf
-
+import numpy as np
+import cv2
+import pandas as pd
 
 #PlaceHolders
 
@@ -25,7 +27,7 @@ def weight_variable(shape):
 
 def bias_variable(shape):
     """ Bias Initialization """
-    initial = tf.constant(0.1, shape=shape)
+    initial = tf.constant(0.01, shape=shape)
     return tf.Variable(initial)
 
 
@@ -88,8 +90,7 @@ def train_model():
 
     return x, y_conv, keep_prob
 
-# Will need use Model after
-def train():
+def train(tests=None, ans=None):
     """
     Currently takes the training data from tensorflow which
     is stored in the folder MNIST_data
@@ -105,7 +106,10 @@ def train():
     """
     # Variables
     x, y_conv, keep_prob = train_model()
-    mnist = read_data_sets('MNIST_data', one_hot=True)
+    if(tests == None or ans == None):
+        mnist = read_data_sets('MNIST_data', one_hot=True)
+    else:
+        mnist = read_data_sets('MNIST_data', tests, ans, one_hot=True)
 
     #Training prep
     cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y_conv), reduction_indices=[1]))
@@ -124,7 +128,7 @@ def train():
         sess.run(init)
 
     # Runs Training Session
-    for i in range(1000):
+    for i in range(500):
         batch = mnist.train.next_batch(50)
         if i%100 == 0:
             train_accuracy = accuracy.eval(feed_dict={x:batch[0], y_: batch[1], keep_prob: 1.0})
@@ -134,11 +138,76 @@ def train():
     save_path = saver.save(sess, "train_ckpt/model.ckpt")
     print("Model saved in file: %s" % save_path)
 
+    # create an an array where we can store 1 picture
+    images = np.zeros((1,784))
+    # and the correct values
+    correct_vals = np.zeros((1,10))
+    # read the image
+    gray = cv2.imread('nine.png', 0 ) #0=cv2.CV_LOAD_IMAGE_GRAYSCALE #must be .png!
+
+    # rescale it
+    gray = cv2.resize(255-gray, (28, 28))
+
+    # save the processed images
+    cv2.imwrite("my_grayscale_digit.png", gray)
+    """
+    all images in the training set have an range from 0-1
+    and not from 0-255 so we divide our flatten images
+    (a one dimensional vector with our 784 pixels)
+    to use the same 0-1 based range
+    """
+    flatten = gray.flatten() / 255.0
+    """
+    we need to store the flatten image and generate
+    the correct_vals array
+    correct_val for a digit (9) would be
+    [0,0,0,0,0,0,0,0,0,1]
+    """
+    images[0] = flatten
+    #print(images[0])
+    classification = sess.run(tf.argmax(y, 1), feed_dict={x: images[0], keep_prob:1.0})
+    print(classification)
+
 def run(self, tests):
-    pass
+
+    # create an an array where we can store 1 picture
+    images = np.zeros((1,784))
+    # and the correct values
+    correct_vals = np.zeros((1,10))
+    # read the image
+    gray = cv2.imread('nine.png', 0 ) #0=cv2.CV_LOAD_IMAGE_GRAYSCALE #must be .png!
+
+    # rescale it
+    gray = cv2.resize(255-gray, (28, 28))
+
+    # save the processed images
+    cv2.imwrite("my_grayscale_digit.png", gray)
+    """
+    all images in the training set have an range from 0-1
+    and not from 0-255 so we divide our flatten images
+    (a one dimensional vector with our 784 pixels)
+    to use the same 0-1 based range
+    """
+    flatten = gray.flatten() / 255.0
+    """
+    we need to store the flatten image and generate
+    the correct_vals array
+    correct_val for a digit (9) would be
+    [0,0,0,0,0,0,0,0,0,1]
+    """
+    images[0] = flatten
+
+    my_classification = sess.run(tf.argmax(y, 1), feed_dict={x: [images[0]]})
+
+    """
+    we want to run the prediction and the accuracy function
+    using our generated arrays (images and correct_vals)
+    """
+    #print 'Neural Network predicted', my_classification[0], "for your digit"
+
 
 def main():
-    train()
+    train(None, None)
 
 if __name__ == '__main__':
     main()

@@ -26,14 +26,6 @@ We (:crocodile:) believe developers should spend most of their time developing, 
 
 ## How to use it
 
-### How to run the current (10/20/16) version of the multi_cnn.py script
-1. cd /location/of/pyceratOpsRecs-master
-1. run `vagrant up`
-1. run `vagrant ssh`
-1. run `cd src`
-1. run `python multi_cnn.py`
-1. wait...
-
 ## How to contribute
 
 ### orcModel Branch

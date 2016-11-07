@@ -19,6 +19,9 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import os
+from os import path
+
 import gzip
 
 import numpy
@@ -26,9 +29,6 @@ from six.moves import xrange  # pylint: disable=redefined-builtin
 
 from tensorflow.contrib.learn.python.learn.datasets import base
 from tensorflow.python.framework import dtypes
-
-SOURCE_URL = 'http://yann.lecun.com/exdb/mnist/'
-
 
 def _read32(bytestream):
   dt = numpy.dtype(numpy.uint32).newbyteorder('>')
@@ -180,6 +180,8 @@ class DataSet(object):
 
 
 def read_data_sets(train_dir,
+                   train_images_file='train-images-idx3-ubyte.gz',
+                   train_lables_file='train-labels-idx1-ubyte.gz',
                    fake_data=False,
                    one_hot=False,
                    dtype=dtypes.float32,
@@ -195,28 +197,24 @@ def read_data_sets(train_dir,
     test = fake()
     return base.Datasets(train=train, validation=validation, test=test)
 
-  TRAIN_IMAGES = 'train-images-idx3-ubyte.gz'
-  TRAIN_LABELS = 'train-labels-idx1-ubyte.gz'
+  TRAIN_IMAGES = train_images_file
+  TRAIN_LABELS = train_lables_file
   TEST_IMAGES = 't10k-images-idx3-ubyte.gz'
   TEST_LABELS = 't10k-labels-idx1-ubyte.gz'
 
-  local_file = base.maybe_download(TRAIN_IMAGES, train_dir,
-                                   SOURCE_URL + TRAIN_IMAGES)
+  local_file = os.path.join(train_dir, TRAIN_IMAGES)
   with open(local_file, 'rb') as f:
     train_images = extract_images(f)
 
-  local_file = base.maybe_download(TRAIN_LABELS, train_dir,
-                                   SOURCE_URL + TRAIN_LABELS)
+  local_file = os.path.join(train_dir, TRAIN_LABELS)
   with open(local_file, 'rb') as f:
     train_labels = extract_labels(f, one_hot=one_hot)
 
-  local_file = base.maybe_download(TEST_IMAGES, train_dir,
-                                   SOURCE_URL + TEST_IMAGES)
+  local_file = os.path.join(train_dir, TEST_IMAGES)
   with open(local_file, 'rb') as f:
     test_images = extract_images(f)
 
-  local_file = base.maybe_download(TEST_LABELS, train_dir,
-                                   SOURCE_URL + TEST_LABELS)
+  local_file = os.path.join(train_dir, TEST_LABELS)
   with open(local_file, 'rb') as f:
     test_labels = extract_labels(f, one_hot=one_hot)
 
